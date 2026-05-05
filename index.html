@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Barr | Premium Dry Fruits & Groceries in 10 Min</title>
+    <meta name="description" content="Quick commerce delivery of premium dry fruits, pulses, namkeen, and spices in 10 minutes.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #f4f6f8; 
+        }
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .add-btn { transition: all 0.2s; }
+        .add-btn:active { transform: scale(0.95); }
+        
+        /* Swiggy/Blinkit card subtle shadow */
+        .qc-card { box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .qc-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .category-circle { transition: transform 0.2s ease; }
+        .category-circle:hover { transform: scale(1.05); }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        golden: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Brand gold
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        brandblue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        }
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-800 antialiased selection:bg-brandblue-100 selection:text-brandblue-900">
+
+    <!-- Announcement Bar -->
+    <div class="bg-brandblue-950 text-golden-400 text-xs md:text-sm font-bold text-center py-2 h-auto min-h-[32px] w-full flex items-center justify-center relative z-[60] px-4 shadow-[0_2px_10px_rgba(23,37,84,0.3)]">
+        <span>🎉 Get Flat ₹100 OFF on your first order over ₹499! </span>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm h-20 flex items-center transition-all">
+        <div class="max-w-[1400px] w-full mx-auto px-3 md:px-4 flex items-center justify-between gap-3 md:gap-8">
+            
+            <!-- Left: Logo -->
+            <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer border-r border-gray-200 pr-3 md:pr-6">
+                <!-- Using logo.png -->
+                <img src="logo.png" alt="Al Barr Logo" class="h-9 md:h-12 w-auto object-contain drop-shadow-sm mix-blend-multiply">
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="font-extrabold text-xl leading-none tracking-tight text-brandblue-950">AL<span class="text-golden-500"> BARR</span></span>
+                    <span class="text-[10px] text-gray-500 font-semibold tracking-widest uppercase mt-1">10 Min Store</span>
+                </div>
+            </div>
+
+            <!-- Middle-Left: Delivery Location -->
+            <div class="hidden md:flex flex-col cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition-colors max-w-[200px] lg:max-w-[240px]">
+                <div class="font-extrabold text-sm text-gray-900 flex items-center">
+                    Delivery in 10 min
+                </div>
+                <div class="text-xs text-gray-500 truncate flex items-center gap-1 mt-0.5">
+                    Home - Andheri West, Mumbai... <i data-lucide="chevron-down" class="w-3 h-3 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- Middle: Large Search Bar (Triggers Modal) -->
+            <div class="flex-1 max-w-3xl relative group cursor-text min-w-0" id="open-search-btn">
+                <i data-lucide="search" class="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5 group-hover:text-golden-500 transition-colors"></i>
+                <div class="w-full bg-gray-100 text-gray-500 rounded-xl py-2.5 md:py-3 pl-9 md:pl-12 pr-3 md:pr-4 text-xs md:text-base border border-transparent group-hover:bg-white group-hover:border-golden-500 transition-all shadow-inner flex items-center select-none overflow-hidden">
+                    <span class="truncate block w-full text-left">Search 'Almonds', 'Moong Dal'...</span>
+                </div>
+            </div>
+
+            <!-- Right: Login & Cart -->
+            <div class="flex items-center gap-3 lg:gap-6 flex-shrink-0">
+                <a href="#" class="hidden sm:block text-gray-600 hover:text-gray-900 font-semibold text-lg">Login</a>
+                
+                <button id="open-cart-btn" class="bg-golden-500 hover:bg-golden-600 text-white w-10 h-10 md:w-auto md:h-auto md:px-4 md:py-2.5 flex items-center justify-center rounded-xl font-bold gap-2 transition-colors shadow-sm transform active:scale-95 flex-shrink-0">
+                    <i data-lucide="shopping-cart" class="w-5 h-5 flex-shrink-0"></i>
+                    <div class="text-left hidden md:block">
+                        <div class="text-[10px] leading-none opacity-90 mb-0.5"><span class="cart-item-count">0</span> items</div>
+                        <div class="text-sm leading-none">₹<span class="cart-total-price">0</span></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Delivery Bar -->
+    <div class="md:hidden bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shadow-sm sticky top-20 z-40">
+        <div class="flex items-center gap-2 overflow-hidden">
+            <i data-lucide="map-pin" class="w-4 h-4 text-golden-500 flex-shrink-0"></i>
+            <div class="flex flex-col truncate">
+                <span class="text-[10px] font-bold text-gray-900 uppercase">Delivery in 10 min</span>
+                <span class="text-xs text-gray-500 truncate">Home - Andheri West...</span>
+            </div>
+        </div>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-[1400px] w-full mx-auto px-4 mt-6 pb-20">
+        
+        <!-- Promotional Banners Row -->
+        <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar snap-x">
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="hero-1.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Festive Offer</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Premium<br>Dry Fruits</h3>
+                        <p class="text-gray-300 text-xs mt-2">Up to 30% OFF</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="hero-2.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Daily Essentials</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Unpolished<br>Pulses & Dals</h3>
+                        <p class="text-gray-300 text-xs mt-2">Pure & Authentic</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center hidden md:block">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="hero-3.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Spice Up</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Authentic<br>Indian Spices</h3>
+                        <p class="text-gray-300 text-xs mt-2">Aroma guaranteed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="mb-12">
+            <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-6">Explore Categories</h2>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto hide-scrollbar pb-4 snap-x">
+                
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Dry Fruits</span>
+                </div>
+                
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1585996886483-36034175591d?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Pulses & Dals</span>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Namkeen</span>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Spices</span>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Rice & Grains</span>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1602052445863-718471c08af7?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Ghee & Oils</span>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1558961363-a0c5c4c9e47c?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Sweets</span>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Section: Premium Dry Fruits -->
+        <div class="mb-12">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Premium Dry Fruits</h2>
+                <a href="#" class="text-golden-600 text-sm font-bold hover:text-golden-700">See All ></a>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+                
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="absolute top-0 left-0 bg-golden-500 text-white text-[10px] font-extrabold px-2 py-1 rounded-tl-2xl rounded-br-xl z-10">BESTSELLER</div>
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-1.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Premium Californian Almonds (Badam)</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">500 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400 line-through leading-none mb-0.5">₹550</span>
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹450</span>
+                        </div>
+                        <button class="add-btn border border-golden-500 text-golden-600 bg-golden-50 px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:bg-golden-500 hover:text-white">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-2.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Whole Cashews (Kaju) W320 Grade</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">500 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400 line-through leading-none mb-0.5">₹550</span>
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹480</span>
+                        </div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-3.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Roasted & Salted Pistachios (Pista)</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">250 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹320</span>
+                        </div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-4.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Premium Indian Kishmish (Raisins)</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">500 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹210</span>
+                        </div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+                
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative hidden lg:flex">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <!-- Walnut placeholder -->
+                        <img src="product-1.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105" style="filter: sepia(0.8) hue-rotate(-20deg);">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Premium Walnuts (Akhrot) Without Shell</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">250 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹350</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative hidden xl:flex">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-2.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105" style="filter: brightness(0.9) contrast(1.2);">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Dried Figs (Anjeer) Standard</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">250 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹280</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Pulses & Namkeen -->
+        <div class="mb-16">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pulses & Namkeen</h2>
+                <a href="#" class="text-golden-600 text-sm font-bold hover:text-golden-700">See All ></a>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+                
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="absolute top-0 left-0 bg-blue-600 text-white text-[10px] font-extrabold px-2 py-1 rounded-tl-2xl rounded-br-xl z-10">Popular</div>
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-3.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Unpolished Toor Dal / Arhar Dal</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">1 kg</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹160</span></div>
+                        <button class="add-btn border border-golden-500 text-golden-600 bg-golden-50 px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:bg-golden-500 hover:text-white">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-4.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Crispy Bikaneri Bhujia</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">400 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹110</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-1.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Roasted Makhana (Fox Nuts) - Salted</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">100 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹150</span>
+                        </div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-2.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105" style="filter: hue-rotate(40deg);">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Moong Dal Yellow - Premium</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">1 kg</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹130</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative hidden lg:flex">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-3.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105" style="filter: brightness(1.1) contrast(1.1);">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Khatta Meetha Navratan Mixture</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">400 g</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹120</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative hidden xl:flex">
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="product-4.png" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105" style="filter: sepia(0.6) hue-rotate(20deg);">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <i data-lucide="timer" class="w-3 h-3 text-brandblue-500"></i>
+                        <span class="text-[9px] font-bold text-brandblue-800 bg-brandblue-50 border border-brandblue-100 px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">10 MINS</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">Premium Chana Dal</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">1 kg</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col"><span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹95</span></div>
+                        <button class="add-btn border border-gray-300 text-gray-600 bg-white px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:border-golden-500 hover:text-golden-600">ADD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brand Video Section -->
+        <div class="mb-16 rounded-3xl overflow-hidden relative shadow-md group cursor-pointer border border-gray-200">
+            <div class="aspect-[16/9] md:aspect-[21/6] w-full relative">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=400&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Brand Video Thumbnail">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300"></div>
+                
+                <!-- Play Button & Text -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-[0_0_30px_rgba(245,158,11,0.3)] group-hover:scale-110 transition-transform duration-300 border border-white/40 text-white">
+                        <i data-lucide="play" class="w-8 h-8 md:w-10 md:h-10 ml-2"></i>
+                    </div>
+                    <span class="text-golden-400 font-extrabold tracking-widest uppercase text-xs md:text-sm mb-2 drop-shadow-md">Our Story</span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-md">Discover the purity<br>of Indian farms</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why Choose Al Barr Section -->
+        <div class="mb-16 bg-golden-50 rounded-3xl p-8 md:p-12 border border-golden-100 relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-golden-200 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+            
+            <div class="text-center mb-10 relative z-10">
+                <span class="text-golden-600 font-extrabold tracking-widest uppercase text-sm mb-2 block">The Al Barr Promise</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Why thousands trust our quality</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-green-100">
+                        <i data-lucide="leaf" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">100% Natural & Pure</h3>
+                    <p class="text-gray-500 text-sm">No artificial colors, no preservatives. Just the raw, unadulterated goodness of nature packed fresh.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-golden-50 text-golden-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-golden-100">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">Premium Sourcing</h3>
+                    <p class="text-gray-500 text-sm">Directly procured from top-grade farms across India. Handpicked for perfect size and supreme taste.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-blue-100">
+                        <i data-lucide="zap" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">Lightning Fast Delivery</h3>
+                    <p class="text-gray-500 text-sm">Forgot to buy snacks for your guests? Relax. We deliver fresh stock right to your doorstep in 10 minutes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creative Testimonials Section (Masonry / Social style) -->
+        <div class="mb-16">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Loved by Desi Foodies</h2>
+                    <p class="text-gray-500 text-sm mt-1">Real reviews from our happy neighbors.</p>
+                </div>
+                <div class="flex gap-2">
+                    <i data-lucide="star" class="w-5 h-5 text-golden-500 fill-current"></i>
+                    <span class="font-extrabold text-gray-900">4.9/5</span>
+                </div>
+            </div>
+
+            <div class="flex gap-6 overflow-x-auto hide-scrollbar snap-x pb-8 pt-4">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative flex-shrink-0 w-[85vw] md:w-[400px] snap-center">
+                    <div class="absolute -top-6 right-6 text-7xl text-golden-100 font-serif opacity-50">"</div>
+                    <div class="flex gap-1 mb-5 text-golden-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-8 font-medium leading-relaxed italic">"The Bikaneri Bhujia is incredibly fresh! I ordered it when guests arrived unannounced, and it was here before I finished making tea. Amazing service!"</p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-4">
+                        <div class="w-12 h-12 rounded-full bg-brandblue-50 flex items-center justify-center text-brandblue-600 font-bold text-xl border border-brandblue-100">T</div>
+                        <div>
+                            <p class="font-bold text-gray-900">Tariq Bhat</p>
+                            <p class="text-xs text-green-600 font-semibold flex items-center gap-1 mt-0.5"><i data-lucide="check-circle" class="w-3 h-3"></i> Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-xl relative flex-shrink-0 w-[85vw] md:w-[400px] snap-center transform md:-translate-y-2 border border-gray-700">
+                    <div class="absolute -top-6 right-6 text-7xl text-gray-700 font-serif opacity-50">"</div>
+                    <div class="flex gap-1 mb-5 text-golden-400">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-200 mb-8 font-medium leading-relaxed italic">"Their Premium Californian Almonds are top notch. Much better quality than the local supermarket, and cheaper too. Al Barr is now my go-to for dry fruits."</p>
+                    <div class="flex items-center gap-4 border-t border-gray-700 pt-4">
+                        <div class="w-12 h-12 rounded-full bg-golden-500 flex items-center justify-center text-white font-bold text-xl shadow-inner">A</div>
+                        <div>
+                            <p class="font-bold text-white">Asma Qadri</p>
+                            <p class="text-xs text-golden-400 font-semibold flex items-center gap-1 mt-0.5"><i data-lucide="check-circle" class="w-3 h-3"></i> Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative flex-shrink-0 w-[85vw] md:w-[400px] snap-center">
+                    <div class="absolute -top-6 right-6 text-7xl text-golden-100 font-serif opacity-50">"</div>
+                    <div class="flex gap-1 mb-5 text-golden-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-8 font-medium leading-relaxed italic">"Unpolished Toor Dal actually tastes so much better. You can feel the difference in the aroma when cooking. Plus, the 10-minute delivery is a lifesaver."</p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-4">
+                        <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-green-600 font-bold text-xl border border-green-100">F</div>
+                        <div>
+                            <p class="font-bold text-gray-900">Faisal Lone</p>
+                            <p class="text-xs text-green-600 font-semibold flex items-center gap-1 mt-0.5"><i data-lucide="check-circle" class="w-3 h-3"></i> Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 4 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative flex-shrink-0 w-[85vw] md:w-[400px] snap-center">
+                    <div class="absolute -top-6 right-6 text-7xl text-golden-100 font-serif opacity-50">"</div>
+                    <div class="flex gap-1 mb-5 text-golden-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-gray-300"></i>
+                    </div>
+                    <p class="text-gray-700 mb-8 font-medium leading-relaxed italic">"The spices are incredibly authentic. It feels like buying directly from the wholesale market. Delivery was literally 9 minutes!"</p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-4">
+                        <div class="w-12 h-12 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 font-bold text-xl border border-pink-100">S</div>
+                        <div>
+                            <p class="font-bold text-gray-900">Saima Dar</p>
+                            <p class="text-xs text-green-600 font-semibold flex items-center gap-1 mt-0.5"><i data-lucide="check-circle" class="w-3 h-3"></i> Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available At / Partners Marquee -->
+        <div class="mb-4 pt-12 border-t border-gray-200 overflow-hidden relative w-full left-0 right-0 max-w-[100vw] -mx-4 px-4 md:mx-0 md:px-0">
+            <h2 class="text-center text-sm md:text-base font-extrabold text-gray-400 uppercase tracking-widest mb-10">Also Available At</h2>
+            
+            <!-- Left & Right Fades -->
+            <div class="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#f4f6f8] to-transparent z-10 pointer-events-none mt-16"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#f4f6f8] to-transparent z-10 pointer-events-none mt-16"></div>
+
+            <div class="flex w-max animate-marquee opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <!-- Group 1 -->
+                <div class="flex justify-around items-center min-w-full flex-shrink-0 gap-16 md:gap-28 px-8 md:px-14">
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-yellow-400 rounded-md"></div> blinkit</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-orange-500 rounded-md"></div> swiggy instamart</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-purple-600 rounded-md"></div> zepto</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-green-500 rounded-md"></div> bbnow</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-blue-500 rounded-md"></div> amazon fresh</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-yellow-500 rounded-md"></div> flipkart</span>
+                </div>
+                <!-- Group 2 (Duplicate for seamless loop) -->
+                <div class="flex justify-around items-center min-w-full flex-shrink-0 gap-16 md:gap-28 px-8 md:px-14">
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-yellow-400 rounded-md"></div> blinkit</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-orange-500 rounded-md"></div> swiggy instamart</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-purple-600 rounded-md"></div> zepto</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-green-500 rounded-md"></div> bbnow</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-blue-500 rounded-md"></div> amazon fresh</span>
+                    <span class="font-extrabold text-2xl md:text-4xl text-gray-500 tracking-tight flex items-center gap-2"><div class="w-4 h-4 md:w-6 md:h-6 bg-yellow-500 rounded-md"></div> flipkart</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Master Footer -->
+    <footer class="bg-white pt-16 pb-20 border-t border-gray-200">
+        <div class="max-w-[1400px] w-full mx-auto px-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+                
+                <!-- Brand Info -->
+                <div class="lg:col-span-2 pr-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="logo.png" alt="Al Barr Logo" class="h-10 md:h-12 w-auto object-contain drop-shadow-sm mix-blend-multiply">
+                        <div class="flex flex-col justify-center">
+                            <span class="font-extrabold text-2xl leading-none tracking-tight text-brandblue-950">AL<span class="text-golden-500"> BARR</span></span>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Your favorite local quick commerce store in India. Getting your daily essentials, dry fruits, pulses, and namkeens to your doorstep in 10 minutes flat.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="font-extrabold text-gray-900 mb-6 text-lg">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">About Us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Careers</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Press</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Lead</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="font-extrabold text-gray-900 mb-6 text-lg">For You</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">FAQs</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Security</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Mobile Apps</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-extrabold text-gray-900 mb-6 text-lg">Help & Support</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Partner with us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Ride with us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Support Center</a></li>
+                        <li class="pt-4 border-t border-gray-100">
+                            <p class="text-sm text-gray-500 font-medium mb-1">Email us at</p>
+                            <a href="mailto:support@albarr.in" class="text-golden-600 font-bold">support@albarr.in</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Cities block -->
+            <div class="border-t border-gray-200 py-8">
+                <h4 class="font-extrabold text-gray-900 mb-4 text-sm uppercase tracking-wider">Cities We Deliver To</h4>
+                <div class="flex flex-wrap gap-x-6 gap-y-3">
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Mumbai</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Delhi NCR</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Bangalore</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Hyderabad</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Chennai</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Pune</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Ahmedabad</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Kolkata</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Jaipur</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Lucknow</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Chandigarh</a>
+                    <a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Indore</a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-500 text-sm font-medium">© 2026 Al Barr Retail Pvt. Ltd. All rights reserved.</p>
+                <div class="flex items-center gap-4 text-sm font-bold text-gray-400">
+                    Made with <i data-lucide="heart" class="w-4 h-4 text-red-500 fill-current"></i> By Irfan Manzoor 
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation Dock -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-[60] pb-2 pt-1 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <div class="flex justify-around items-center h-14 px-2">
+            <a href="#" class="flex flex-col items-center gap-1 w-16 text-brandblue-800">
+                <i data-lucide="store" class="w-5 h-5"></i>
+                <span class="text-[10px] font-extrabold leading-none">Shop</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 w-16 text-gray-500 hover:text-brandblue-800 transition-colors">
+                <i data-lucide="grid" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium leading-none">Categories</span>
+            </a>
+            <a href="#" id="mobile-open-search-btn" class="relative flex flex-col items-center -mt-8">
+                <div class="w-14 h-14 bg-brandblue-900 rounded-full flex items-center justify-center shadow-lg border-4 border-white text-golden-400 hover:bg-brandblue-950 transition-colors transform hover:scale-105">
+                    <i data-lucide="search" class="w-6 h-6"></i>
+                </div>
+            </a>
+            <a href="#" id="mobile-open-cart-btn" class="flex flex-col items-center gap-1 w-16 text-gray-500 hover:text-brandblue-800 transition-colors relative">
+                <div class="relative">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span class="absolute -top-1 -right-1.5 bg-red-500 text-white text-[9px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center border border-white cart-item-count">0</span>
+                </div>
+                <span class="text-[10px] font-medium leading-none">Cart</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 w-16 text-gray-500 hover:text-brandblue-800 transition-colors">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium leading-none">Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Search Modal Overlay (Full Viewport) -->
+    <div id="search-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-white transition-opacity duration-300 opacity-0" id="search-backdrop"></div>
+        <div class="absolute inset-0 flex flex-col transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none" id="search-panel">
+            
+            <!-- Search Header -->
+            <div class="border-b border-gray-100 bg-white shadow-sm p-4 sticky top-0 pointer-events-auto">
+                <div class="max-w-[1400px] w-full mx-auto flex items-center gap-4">
+                    <button id="close-search-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors flex-shrink-0 cursor-pointer shadow-inner hover:shadow-none">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex-1 relative">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-golden-500 w-5 h-5"></i>
+                        <input type="text" id="search-input" placeholder="Search for 'Almonds', 'Moong Dal', 'Bhujia'..." 
+                               class="w-full bg-gray-50 text-gray-900 rounded-xl py-3 pl-12 pr-4 text-base md:text-lg focus:outline-none focus:ring-1 focus:ring-golden-500 border border-transparent transition-all font-medium">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Content -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8 max-w-[1400px] w-full mx-auto pointer-events-auto">
+                <h3 class="font-extrabold text-gray-900 mb-4 text-sm uppercase tracking-wider flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4 text-golden-500"></i> Trending Searches</h3>
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <button class="bg-gray-50 hover:bg-golden-50 text-gray-700 hover:text-golden-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-gray-100 hover:border-golden-200 flex items-center gap-2"><i data-lucide="search" class="w-3 h-3 text-gray-400"></i> Bikaneri Bhujia</button>
+                    <button class="bg-gray-50 hover:bg-golden-50 text-gray-700 hover:text-golden-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-gray-100 hover:border-golden-200 flex items-center gap-2"><i data-lucide="search" class="w-3 h-3 text-gray-400"></i> Premium Almonds</button>
+                    <button class="bg-gray-50 hover:bg-golden-50 text-gray-700 hover:text-golden-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-gray-100 hover:border-golden-200 flex items-center gap-2"><i data-lucide="search" class="w-3 h-3 text-gray-400"></i> Toor Dal</button>
+                    <button class="bg-gray-50 hover:bg-golden-50 text-gray-700 hover:text-golden-600 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-gray-100 hover:border-golden-200 flex items-center gap-2"><i data-lucide="search" class="w-3 h-3 text-gray-400"></i> Cashews</button>
+                </div>
+                
+                <!-- Empty State Demo -->
+                <div class="text-center text-gray-500 mt-20 opacity-50">
+                    <i data-lucide="shopping-bag" class="w-16 h-16 mx-auto text-gray-300 mb-4"></i>
+                    <h4 class="text-lg font-bold text-gray-900 mb-2">Search Al Barr</h4>
+                    <p>Find your favorite dry fruits, pulses, and more in milliseconds.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar-wrapper" class="fixed inset-0 z-[100] hidden pointer-events-none">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto cursor-pointer" id="cart-backdrop"></div>
+        <div class="absolute inset-y-0 right-0 w-full max-w-md bg-gray-50 shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col" id="cart-panel">
+            
+            <!-- Cart Header -->
+            <div class="bg-white px-4 py-4 flex items-center justify-between border-b border-gray-200 shadow-sm z-20 relative">
+                <h2 class="font-extrabold text-xl text-gray-900 flex items-center gap-2">
+                    My Cart <span class="bg-golden-500 text-white text-xs px-2 py-0.5 rounded-full"><span class="cart-item-count">0</span></span>
+                </h2>
+                <button id="close-cart-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Cart Body/Items container -->
+            <div class="flex-1 overflow-y-auto flex flex-col relative" id="cart-items-wrapper">
+                
+                <!-- Free Delivery Banner (dynamic) -->
+                <div id="delivery-banner" class="bg-blue-50 text-blue-800 text-xs font-semibold px-4 py-2.5 flex items-center gap-2 sticky top-0 z-10 border-b border-blue-100 hidden">
+                    <i data-lucide="truck" class="w-4 h-4"></i>
+                    <span>Add ₹<span id="amount-for-free-delivery">150</span> more to get <strong>FREE Delivery</strong></span>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center text-center opacity-50 p-8">
+                    <i data-lucide="shopping-cart" class="w-16 h-16 text-gray-400 mb-4"></i>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Your cart is empty</h3>
+                    <p class="text-sm text-gray-500">Looks like you haven't added anything yet.</p>
+                </div>
+
+                <!-- Items Container -->
+                <div id="cart-items-container" class="p-4 flex flex-col gap-3"></div>
+
+                <!-- Bill Details -->
+                <div id="bill-details" class="bg-white mx-4 mb-4 mt-1 p-4 rounded-2xl shadow-sm border border-gray-100 hidden">
+                    <h4 class="font-bold text-sm text-gray-900 mb-3">Bill Details</h4>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between items-center">
+                            <span class="flex items-center gap-1"><i data-lucide="receipt-text" class="w-3.5 h-3.5 text-gray-400"></i> Item Total</span>
+                            <span class="font-semibold text-gray-900">₹<span class="bill-item-total">0</span></span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="flex items-center gap-1"><i data-lucide="bike" class="w-3.5 h-3.5 text-gray-400"></i> Delivery Fee</span>
+                            <span class="font-semibold text-blue-600" id="bill-delivery-fee">₹30</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="flex items-center gap-1"><i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-gray-400"></i> Handling Charge</span>
+                            <span class="font-semibold text-gray-900">₹5</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-100 mt-3 pt-3 flex justify-between items-center font-extrabold text-base text-gray-900">
+                        <span>Grand Total</span>
+                        <span>₹<span class="bill-grand-total">0</span></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cart Footer -->
+            <div class="bg-white border-t border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-20 hidden relative" id="cart-footer">
+                <div class="bg-green-50 text-green-700 text-[11px] font-bold px-3 py-1.5 rounded-lg mb-3 flex items-center justify-center gap-1.5 border border-green-100">
+                    <i data-lucide="badge-percent" class="w-4 h-4"></i> Yay! You've unlocked the best prices.
+                </div>
+                <button class="w-full bg-gradient-to-r from-brandblue-950 to-brandblue-800 hover:from-brandblue-900 hover:to-brandblue-700 text-white p-1 rounded-2xl font-bold shadow-md transition-all active:scale-[0.98] flex items-center justify-between group">
+                    <div class="bg-brandblue-800/50 rounded-xl px-4 py-2.5 flex flex-col items-start border border-brandblue-400/20">
+                        <span class="text-[10px] opacity-90 leading-none mb-1 uppercase tracking-wider text-golden-400"><span class="cart-item-count">0</span> Items</span>
+                        <span class="text-base leading-none">₹<span class="bill-grand-total">0</span></span>
+                    </div>
+                    <div class="flex items-center gap-2 pr-4 text-base md:text-lg group-hover:pr-3 transition-all text-golden-400">
+                        Proceed to Pay <i data-lucide="chevron-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            let cart = [];
+            
+            // UI Elements
+            const cartItemCountEls = document.querySelectorAll('.cart-item-count');
+            const cartTotalPriceEls = document.querySelectorAll('.cart-total-price');
+            const cartSidebarWrapper = document.getElementById('cart-sidebar-wrapper');
+            const cartBackdrop = document.getElementById('cart-backdrop');
+            const cartPanel = document.getElementById('cart-panel');
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartEmptyState = document.getElementById('cart-empty-state');
+            const cartFooter = document.getElementById('cart-footer');
+            
+            const searchModal = document.getElementById('search-modal');
+            const searchBackdrop = document.getElementById('search-backdrop');
+            const searchPanel = document.getElementById('search-panel');
+            const searchInput = document.getElementById('search-input');
+
+            // --- Cart Logic ---
+            const updateCartUI = () => {
+                let count = 0;
+                let itemTotal = 0;
+                cart.forEach(item => {
+                    count += item.quantity;
+                    itemTotal += item.price * item.quantity;
+                });
+                
+                const FREE_DELIVERY_THRESHOLD = 300;
+                const HANDLING_FEE = 5;
+                const deliveryFee = itemTotal >= FREE_DELIVERY_THRESHOLD ? 0 : 30;
+                const grandTotal = itemTotal > 0 ? itemTotal + deliveryFee + HANDLING_FEE : 0;
+                
+                cartItemCountEls.forEach(el => el.textContent = count);
+                cartTotalPriceEls.forEach(el => el.textContent = grandTotal);
+                
+                document.querySelectorAll('.bill-item-total').forEach(el => el.textContent = itemTotal);
+                document.querySelectorAll('.bill-grand-total').forEach(el => el.textContent = grandTotal);
+                
+                const deliveryBanner = document.getElementById('delivery-banner');
+                const billDetails = document.getElementById('bill-details');
+                const deliveryFeeEl = document.getElementById('bill-delivery-fee');
+                
+                if (deliveryBanner) {
+                    if (deliveryFee === 0 && itemTotal > 0) {
+                        deliveryFeeEl.innerHTML = `<span class="line-through text-gray-400 mr-1">₹30</span> <span class="text-green-600 font-extrabold">FREE</span>`;
+                        deliveryBanner.className = "bg-green-50 text-green-800 text-xs font-semibold px-4 py-2.5 flex items-center gap-2 sticky top-0 z-10 border-b border-green-100 transition-colors";
+                        deliveryBanner.innerHTML = `<i data-lucide="truck" class="w-4 h-4"></i> <span>Yay! You've unlocked <strong>FREE Delivery</strong></span>`;
+                    } else if (itemTotal > 0) {
+                        deliveryFeeEl.textContent = `₹30`;
+                        deliveryBanner.className = "bg-blue-50 text-blue-800 text-xs font-semibold px-4 py-2.5 flex items-center gap-2 sticky top-0 z-10 border-b border-blue-100 transition-colors";
+                        deliveryBanner.innerHTML = `<i data-lucide="truck" class="w-4 h-4"></i> <span>Add ₹<span>${FREE_DELIVERY_THRESHOLD - itemTotal}</span> more to get <strong>FREE Delivery</strong></span>`;
+                    }
+                }
+                
+                if(cart.length === 0) {
+                    cartEmptyState.classList.remove('hidden');
+                    cartFooter.classList.add('hidden');
+                    cartItemsContainer.classList.add('hidden');
+                    if (billDetails) billDetails.classList.add('hidden');
+                    if (deliveryBanner) deliveryBanner.classList.add('hidden');
+                    cartItemsContainer.innerHTML = '';
+                } else {
+                    cartEmptyState.classList.add('hidden');
+                    cartFooter.classList.remove('hidden');
+                    cartItemsContainer.classList.remove('hidden');
+                    if (billDetails) billDetails.classList.remove('hidden');
+                    if (deliveryBanner) deliveryBanner.classList.remove('hidden');
+                    renderCartItems();
+                }
+                lucide.createIcons();
+            };
+            
+            const renderCartItems = () => {
+                cartItemsContainer.innerHTML = '';
+                
+                cart.forEach((item, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'bg-white p-3 rounded-2xl flex gap-3 shadow-sm border border-gray-100 relative';
+                    el.innerHTML = `
+                        <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 border border-gray-100">
+                            <img src="${item.img}" class="w-full h-full object-cover mix-blend-multiply">
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 text-sm leading-tight line-clamp-1 pr-4">${item.name}</h4>
+                                <span class="text-xs text-gray-500">${item.weight}</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="font-extrabold text-gray-900">₹${item.price}</span>
+                                <div class="flex items-center gap-3 bg-golden-50 px-2 py-1 rounded-lg text-golden-700 border border-golden-200 shadow-sm">
+                                    <button class="font-bold cursor-pointer hover:text-gray-900 px-1 transform active:scale-90 transition-transform" onclick="window.updateItemQuantity(${index}, -1)">-</button>
+                                    <span class="text-sm font-extrabold w-3 text-center">${item.quantity}</span>
+                                    <button class="font-bold cursor-pointer hover:text-gray-900 px-1 transform active:scale-90 transition-transform" onclick="window.updateItemQuantity(${index}, 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(el);
+                });
+            };
+            
+            window.updateItemQuantity = (index, delta) => {
+                cart[index].quantity += delta;
+                if(cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartUI();
+            };
+
+            const addBtns = document.querySelectorAll('.add-btn');
+            addBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if(this.innerText === 'ADD') {
+                        // Gather product data
+                        const card = this.closest('.qc-card');
+                        const img = card.querySelector('img').src;
+                        const name = card.querySelector('h3').innerText;
+                        const weight = card.querySelector('p').innerText;
+                        const priceContainer = card.querySelector('.flex.flex-col');
+                        const priceText = priceContainer.lastElementChild.innerText.replace('₹', '');
+                        const price = parseInt(priceText);
+                        
+                        // Add to cart
+                        cart.push({ img, name, weight, price, quantity: 1 });
+                        
+                        this.innerHTML = `
+                            <div class="flex items-center justify-between w-14">
+                                <i data-lucide="check" class="w-4 h-4 mx-auto text-golden-600"></i>
+                            </div>
+                        `;
+                        lucide.createIcons();
+                        this.classList.replace('bg-white', 'bg-golden-100');
+                        this.classList.replace('bg-golden-50', 'bg-golden-100');
+                        this.classList.add('pointer-events-none');
+                        
+                        updateCartUI();
+                        openCart();
+                    }
+                });
+            });
+
+            // --- Cart Sidebar Modal ---
+            const openCart = () => {
+                cartSidebarWrapper.classList.remove('hidden');
+                setTimeout(() => {
+                    cartBackdrop.classList.remove('opacity-0');
+                    cartPanel.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            };
+            
+            const closeCart = () => {
+                cartBackdrop.classList.add('opacity-0');
+                cartPanel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    cartSidebarWrapper.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            };
+
+            document.getElementById('open-cart-btn')?.addEventListener('click', openCart);
+            document.getElementById('mobile-open-cart-btn')?.addEventListener('click', (e) => { e.preventDefault(); openCart(); });
+            document.getElementById('close-cart-btn')?.addEventListener('click', closeCart);
+            cartBackdrop?.addEventListener('click', closeCart);
+
+            // --- Search Modal ---
+            const openSearch = () => {
+                searchModal.classList.remove('hidden');
+                setTimeout(() => {
+                    searchBackdrop.classList.remove('opacity-0');
+                    searchPanel.classList.remove('opacity-0', 'translate-y-8');
+                    searchInput.focus();
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeSearch = () => {
+                searchBackdrop.classList.add('opacity-0');
+                searchPanel.classList.add('opacity-0', 'translate-y-8');
+                setTimeout(() => {
+                    searchModal.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            };
+
+            document.getElementById('open-search-btn')?.addEventListener('click', openSearch);
+            document.getElementById('mobile-open-search-btn')?.addEventListener('click', (e) => { e.preventDefault(); openSearch(); });
+            document.getElementById('close-search-btn')?.addEventListener('click', closeSearch);
+            searchBackdrop?.addEventListener('click', closeSearch);
+            
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>

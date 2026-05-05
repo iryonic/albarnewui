@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Al Barr | Premium Dry Fruits & Groceries in 10 Min</title>
+    <meta name="description" content="Quick commerce delivery of premium dry fruits, pulses, namkeen, and spices in 10 minutes.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #f4f6f8; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .add-btn { transition: all 0.2s; }
+        .add-btn:active { transform: scale(0.95); }
+        .qc-card { box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: all 0.2s ease-in-out; }
+        .qc-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.08); transform: translateY(-3px); }
+        .category-circle { transition: transform 0.2s ease; }
+        .category-circle:hover { transform: scale(1.05); }
+        /* Cart slide-in animation */
+        .cart-badge-pulse { animation: pulse 0.3s ease-in-out; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .toast-notify { animation: slideUp 0.3s ease forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        golden: {
+                            50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d',
+                            400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309',
+                            800: '#92400e', 900: '#78350f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-800 antialiased pt-20 selection:bg-golden-200">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg hidden items-center gap-2 whitespace-nowrap backdrop-blur-sm bg-opacity-90">
+        <i data-lucide="check-circle" class="w-4 h-4 text-golden-400"></i>
+        <span id="toastMsg">Added to cart</span>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm h-20 flex items-center">
+        <div class="max-w-[1400px] w-full mx-auto px-4 flex items-center justify-between gap-4 md:gap-8">
+            <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer border-r border-gray-200 pr-4 md:pr-6">
+                <div class="h-10 w-10 md:h-12 md:w-12 rounded-full border border-golden-200 bg-golden-50 flex items-center justify-center text-golden-600 font-extrabold text-xl shadow-sm">AB</div>
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="font-extrabold text-xl leading-none tracking-tight">AL<span class="text-golden-500"> BARR</span></span>
+                    <span class="text-[10px] text-gray-500 font-semibold tracking-widest uppercase mt-1">10 Min Store</span>
+                </div>
+            </div>
+
+            <div class="hidden md:flex flex-col cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition-colors max-w-[200px] lg:max-w-[240px]">
+                <div class="font-extrabold text-sm text-gray-900 flex items-center">Delivery in 10 min</div>
+                <div class="text-xs text-gray-500 truncate flex items-center gap-1 mt-0.5">Home - Andheri West, Mumbai... <i data-lucide="chevron-down" class="w-3 h-3 text-gray-400"></i></div>
+            </div>
+
+            <div class="flex-1 max-w-3xl relative group">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-golden-500 transition-colors"></i>
+                <input type="text" id="searchInput" placeholder="Search for 'Almonds', 'Moong Dal', 'Bhujia'..." 
+                       class="w-full bg-gray-100 text-gray-900 rounded-xl py-3 pl-12 pr-4 text-sm md:text-base focus:outline-none focus:ring-1 focus:ring-golden-500 border border-transparent focus:bg-white focus:border-golden-500 transition-all shadow-inner">
+            </div>
+
+            <div class="flex items-center gap-4 lg:gap-6 flex-shrink-0">
+                <a href="#" class="hidden sm:block text-gray-600 hover:text-gray-900 font-semibold text-lg">Login</a>
+                <button id="cartBtn" class="bg-golden-500 hover:bg-golden-600 text-white px-3 md:px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-sm relative">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <div class="text-left hidden sm:block">
+                        <div class="text-[10px] leading-none opacity-90 mb-0.5"><span id="cartItemCount">0</span> items</div>
+                        <div class="text-sm leading-none">₹<span id="cartTotal">0</span></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="md:hidden bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shadow-sm sticky top-20 z-40">
+        <div class="flex items-center gap-2 overflow-hidden">
+            <i data-lucide="map-pin" class="w-4 h-4 text-golden-500 flex-shrink-0"></i>
+            <div class="flex flex-col truncate">
+                <span class="text-[10px] font-bold text-gray-900 uppercase">Delivery in 10 min</span>
+                <span class="text-xs text-gray-500 truncate">Home - Andheri West...</span>
+            </div>
+        </div>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+    </div>
+
+    <main class="max-w-[1400px] w-full mx-auto px-4 mt-6 pb-20">
+        <!-- Promotional Banners -->
+        <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar snap-x">
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1615486511484-91fa8b5d3936?w=800&h=400&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Festive Offer</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Premium<br>Dry Fruits</h3>
+                        <p class="text-gray-300 text-xs mt-2">Up to 30% OFF</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1585996886483-36034175591d?w=800&h=400&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Daily Essentials</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Unpolished<br>Pulses & Dals</h3>
+                        <p class="text-gray-300 text-xs mt-2">Pure & Authentic</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[85vw] md:w-1/2 lg:w-1/3 flex-shrink-0 snap-center hidden md:block">
+                <div class="h-40 md:h-56 rounded-2xl overflow-hidden relative group cursor-pointer shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&h=400&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center px-6">
+                        <span class="text-golden-400 font-bold text-xs md:text-sm uppercase tracking-wider mb-1">Spice Up</span>
+                        <h3 class="text-white font-extrabold text-2xl md:text-3xl leading-tight">Authentic<br>Indian Spices</h3>
+                        <p class="text-gray-300 text-xs mt-2">Aroma guaranteed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section (Functional Filters) -->
+        <div class="mb-12">
+            <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-6">Explore Categories</h2>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto hide-scrollbar pb-4 snap-x" id="categoryFilter">
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start" data-cat="all">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border-2 border-golden-500 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">All</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start" data-cat="dryfruits">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Dry Fruits</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start" data-cat="pulses">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1585996886483-36034175591d?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Pulses & Dals</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start" data-cat="namkeen">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Namkeen</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group flex-shrink-0 snap-start" data-cat="spices">
+                    <div class="category-circle w-20 h-20 md:w-28 md:h-28 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 overflow-hidden relative p-1.5">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <span class="text-xs md:text-sm font-bold text-gray-800 text-center">Spices</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid Container -->
+        <div id="productsContainer"></div>
+
+        <!-- Why Choose Al Barr Section -->
+        <div class="mb-16 bg-golden-50 rounded-3xl p-8 md:p-12 border border-golden-100 relative overflow-hidden mt-12">
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-golden-200 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+            <div class="text-center mb-10 relative z-10">
+                <span class="text-golden-600 font-extrabold tracking-widest uppercase text-sm mb-2 block">The Al Barr Promise</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Why thousands trust our quality</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-green-100"><i data-lucide="leaf" class="w-8 h-8"></i></div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">100% Natural & Pure</h3>
+                    <p class="text-gray-500 text-sm">No artificial colors, no preservatives. Just the raw, unadulterated goodness of nature packed fresh.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-golden-50 text-golden-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-golden-100"><i data-lucide="award" class="w-8 h-8"></i></div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">Premium Sourcing</h3>
+                    <p class="text-gray-500 text-sm">Directly procured from top-grade farms across India. Handpicked for perfect size and supreme taste.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 shadow-sm border border-blue-100"><i data-lucide="zap" class="w-8 h-8"></i></div>
+                    <h3 class="font-extrabold text-gray-900 text-lg mb-2">Lightning Fast Delivery</h3>
+                    <p class="text-gray-500 text-sm">Forgot to buy snacks for your guests? Relax. We deliver fresh stock right to your doorstep in 10 minutes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="mb-16">
+            <div class="flex justify-between items-end mb-8"><div><h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Loved by Desi Foodies</h2><p class="text-gray-500 text-sm mt-1">Real reviews from our happy neighbors.</p></div><div class="flex gap-2"><i data-lucide="star" class="w-5 h-5 text-golden-500 fill-current"></i><span class="font-extrabold text-gray-900">4.9/5</span></div></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm relative"><div class="absolute -top-4 right-6 text-5xl text-golden-200 font-serif">"</div><div class="flex gap-1 mb-4 text-golden-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-700 mb-6 font-medium leading-relaxed">"The Bikaneri Bhujia is incredibly fresh! I ordered it when guests arrived unannounced, and it was here before I finished making tea. Amazing service!"</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">R</div><div><p class="font-bold text-gray-900 text-sm">Rahul Sharma</p><p class="text-xs text-gray-500">Ordered 2 days ago</p></div></div></div>
+                <div class="bg-gray-900 p-6 rounded-2xl shadow-lg relative transform md:-translate-y-4"><div class="absolute -top-4 right-6 text-5xl text-gray-700 font-serif">"</div><div class="flex gap-1 mb-4 text-golden-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-300 mb-6 font-medium leading-relaxed">"Their Premium Californian Almonds are top notch. Much better quality than the local supermarket, and cheaper too. Al Barr is now my go-to for dry fruits."</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-golden-500 flex items-center justify-center text-white font-bold">P</div><div><p class="font-bold text-white text-sm">Priya Desai</p><p class="text-xs text-gray-400">Regular Customer</p></div></div></div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm relative"><div class="absolute -top-4 right-6 text-5xl text-golden-200 font-serif">"</div><div class="flex gap-1 mb-4 text-golden-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-700 mb-6 font-medium leading-relaxed">"Unpolished Toor Dal actually tastes so much better. You can feel the difference in the aroma when cooking. Plus, the 10-minute delivery is a lifesaver."</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">A</div><div><p class="font-bold text-gray-900 text-sm">Amit Patel</p><p class="text-xs text-gray-500">Ordered this week</p></div></div></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white pt-16 border-t border-gray-200">
+        <div class="max-w-[1400px] w-full mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+                <div class="lg:col-span-2 pr-8"><div class="flex items-center gap-3 mb-6"><div class="h-12 w-12 rounded-full border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-600 font-extrabold text-xl shadow-sm">AB</div><div><span class="font-extrabold text-2xl leading-none tracking-tight">AL<span class="text-golden-500"> BARR</span></span></div></div><p class="text-gray-500 mb-6 leading-relaxed">Your favorite local quick commerce store in India. Getting your daily essentials, dry fruits, pulses, and namkeens to your doorstep in 10 minutes flat.</p><div class="flex gap-4"><a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a><a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a><a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-golden-500 hover:text-white transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a></div></div>
+                <div><h4 class="font-extrabold text-gray-900 mb-6 text-lg">Company</h4><ul class="space-y-4"><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">About Us</a></li><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Careers</a></li><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Blog</a></li></ul></div>
+                <div><h4 class="font-extrabold text-gray-900 mb-6 text-lg">For You</h4><ul class="space-y-4"><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Privacy Policy</a></li><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Terms of Service</a></li><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">FAQs</a></li></ul></div>
+                <div><h4 class="font-extrabold text-gray-900 mb-6 text-lg">Help & Support</h4><ul class="space-y-4"><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Partner with us</a></li><li><a href="#" class="text-gray-600 hover:text-golden-500 font-medium">Support Center</a></li><li class="pt-4 border-t border-gray-100"><p class="text-sm text-gray-500 font-medium mb-1">Email us at</p><a href="mailto:support@albarr.in" class="text-golden-600 font-bold">support@albarr.in</a></li></ul></div>
+            </div>
+            <div class="border-t border-gray-200 py-8"><h4 class="font-extrabold text-gray-900 mb-4 text-sm uppercase tracking-wider">Cities We Deliver To</h4><div class="flex flex-wrap gap-x-6 gap-y-3"><a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Mumbai</a><a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Delhi NCR</a><a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Bangalore</a><a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Hyderabad</a><a href="#" class="text-gray-500 hover:text-golden-500 text-sm font-medium">Chennai</a></div></div>
+            <div class="border-t border-gray-200 py-6 flex flex-col md:flex-row items-center justify-between gap-4"><p class="text-gray-500 text-sm font-medium">© 2026 Al Barr Retail Pvt. Ltd. All rights reserved.</p><div class="flex items-center gap-4 text-sm font-bold text-gray-400">Made with <i data-lucide="heart" class="w-4 h-4 text-red-500 fill-current"></i> in India</div></div>
+        </div>
+    </footer>
+
+    <script>
+        // Product Database
+        const products = [
+            { id: 1, name: "Premium Californian Almonds (Badam)", category: "dryfruits", price: 450, oldPrice: 550, weight: "500 g", image: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&h=400&fit=crop", badge: "BESTSELLER" },
+            { id: 2, name: "Whole Cashews (Kaju) W320 Grade", category: "dryfruits", price: 480, oldPrice: 550, weight: "500 g", image: "https://images.unsplash.com/photo-1596422846543-7fa32bfd0458?w=400&h=400&fit=crop", badge: null },
+            { id: 3, name: "Roasted & Salted Pistachios (Pista)", category: "dryfruits", price: 320, oldPrice: null, weight: "250 g", image: "https://images.unsplash.com/photo-1562925187-511ce0c6792d?w=400&h=400&fit=crop", badge: null },
+            { id: 4, name: "Premium Indian Kishmish (Raisins)", category: "dryfruits", price: 210, oldPrice: null, weight: "500 g", image: "https://images.unsplash.com/photo-1590004953392-5aba2e72269a?w=400&h=400&fit=crop", badge: null },
+            { id: 5, name: "Unpolished Toor Dal / Arhar Dal", category: "pulses", price: 160, oldPrice: null, weight: "1 kg", image: "https://images.unsplash.com/photo-1585996886483-36034175591d?w=400&h=400&fit=crop", badge: "Popular" },
+            { id: 6, name: "Crispy Bikaneri Bhujia", category: "namkeen", price: 110, oldPrice: null, weight: "400 g", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop", badge: null },
+            { id: 7, name: "Roasted Makhana (Fox Nuts) - Salted", category: "namkeen", price: 150, oldPrice: null, weight: "100 g", image: "https://images.unsplash.com/photo-1618897996318-5a901fa6ca10?w=400&h=400&fit=crop", badge: null },
+            { id: 8, name: "Moong Dal Yellow - Premium", category: "pulses", price: 130, oldPrice: null, weight: "1 kg", image: "https://images.unsplash.com/photo-1585996886483-36034175591d?w=400&h=400&fit=crop", badge: null },
+            { id: 9, name: "Kashmiri Red Chili Powder", category: "spices", price: 120, oldPrice: 160, weight: "250 g", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=400&fit=crop", badge: "Pure" },
+            { id: 10, name: "Premium Walnuts (Akhrot)", category: "dryfruits", price: 350, oldPrice: 450, weight: "250 g", image: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&h=400&fit=crop", badge: null }
+        ];
+
+        let cart = {}; // { productId: quantity }
+        let currentFilter = "all";
+        let searchQuery = "";
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2000);
+        }
+
+        function updateCartUI() {
+            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+            const totalPrice = Object.entries(cart).reduce((sum, [id, qty]) => {
+                const prod = products.find(p => p.id == id);
+                return sum + (prod?.price || 0) * qty;
+            }, 0);
+            document.getElementById('cartItemCount').innerText = totalItems;
+            document.getElementById('cartTotal').innerText = totalPrice;
+            const badge = document.getElementById('cartItemCount');
+            if (badge) badge.classList.add('cart-badge-pulse');
+            setTimeout(() => badge?.classList.remove('cart-badge-pulse'), 300);
+        }
+
+        function addToCart(productId) {
+            cart[productId] = (cart[productId] || 0) + 1;
+            updateCartUI();
+            showToast("Added to cart");
+            renderProducts(); // re-render to update quantity buttons
+        }
+
+        function updateQuantity(productId, delta) {
+            const newQty = (cart[productId] || 0) + delta;
+            if (newQty <= 0) delete cart[productId];
+            else cart[productId] = newQty;
+            updateCartUI();
+            renderProducts();
+        }
+
+        function renderProductCard(p) {
+            const qty = cart[p.id] || 0;
+            const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
+            return `
+                <div class="qc-card bg-white rounded-2xl p-3 border border-gray-100 flex flex-col relative">
+                    ${p.badge ? `<div class="absolute top-0 left-0 bg-golden-500 text-white text-[10px] font-extrabold px-2 py-1 rounded-tl-2xl rounded-br-xl z-10">${p.badge}</div>` : ''}
+                    <div class="w-full aspect-square bg-gray-50/50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center p-2 border border-gray-50 cursor-pointer">
+                        <img src="${p.image}" class="w-full h-full object-cover rounded-lg mix-blend-multiply transition-transform hover:scale-105">
+                    </div>
+                    <div class="flex items-center gap-1 mb-1.5"><i data-lucide="timer" class="w-3 h-3 text-gray-400"></i><span class="text-[9px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded uppercase tracking-wider">10 MINS</span></div>
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 line-clamp-2 min-h-[38px] cursor-pointer">${p.name}</h3>
+                    <p class="text-xs text-gray-500 mb-4 font-medium">${p.weight}</p>
+                    <div class="flex justify-between items-center mt-auto pt-2 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            ${p.oldPrice ? `<span class="text-xs text-gray-400 line-through leading-none mb-0.5">₹${p.oldPrice}</span>` : ''}
+                            <span class="text-sm md:text-base font-extrabold text-gray-900 leading-none">₹${p.price}</span>
+                        </div>
+                        ${qty === 0 ? 
+                            `<button onclick="addToCart(${p.id})" class="add-btn border border-golden-500 text-golden-600 bg-golden-50 px-4 py-1.5 rounded-lg text-sm font-extrabold uppercase hover:bg-golden-500 hover:text-white transition">ADD</button>` :
+                            `<div class="flex items-center gap-2 bg-golden-50 rounded-lg px-2 py-1 border border-golden-200">
+                                <button onclick="updateQuantity(${p.id}, -1)" class="text-golden-600 font-bold text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-golden-100">-</button>
+                                <span class="text-sm font-extrabold text-gray-800 min-w-[20px] text-center">${qty}</span>
+                                <button onclick="updateQuantity(${p.id}, 1)" class="text-golden-600 font-bold text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-golden-100">+</button>
+                            </div>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProducts() {
+            let filtered = [...products];
+            if (currentFilter !== "all") filtered = filtered.filter(p => p.category === currentFilter);
+            if (searchQuery) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            
+            const dryFruitsSection = filtered.filter(p => p.category === "dryfruits");
+            const othersSection = filtered.filter(p => p.category !== "dryfruits");
+            
+            let html = '';
+            if (dryFruitsSection.length > 0) {
+                html += `<div class="mb-12"><div class="flex justify-between items-end mb-4"><h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Premium Dry Fruits</h2><a href="#" class="text-golden-600 text-sm font-bold hover:text-golden-700">See All ></a></div><div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">${dryFruitsSection.map(p => renderProductCard(p)).join('')}</div></div>`;
+            }
+            if (othersSection.length > 0) {
+                html += `<div class="mb-16"><div class="flex justify-between items-end mb-4"><h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pulses & Namkeen</h2><a href="#" class="text-golden-600 text-sm font-bold hover:text-golden-700">See All ></a></div><div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">${othersSection.map(p => renderProductCard(p)).join('')}</div></div>`;
+            }
+            if (filtered.length === 0) html = `<div class="text-center py-12"><i data-lucide="package" class="w-12 h-12 mx-auto text-gray-400 mb-3"></i><p class="text-gray-500">No products found</p></div>`;
+            document.getElementById('productsContainer').innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // Event Listeners
+        document.querySelectorAll('#categoryFilter [data-cat]').forEach(cat => {
+            cat.addEventListener('click', () => {
+                currentFilter = cat.getAttribute('data-cat');
+                document.querySelectorAll('#categoryFilter [data-cat]').forEach(c => {
+                    c.querySelector('.category-circle').classList.remove('border-golden-500', 'border-2');
+                    c.querySelector('.category-circle').classList.add('border', 'border-gray-100');
+                });
+                cat.querySelector('.category-circle').classList.remove('border', 'border-gray-100');
+                cat.querySelector('.category-circle').classList.add('border-golden-500', 'border-2');
+                renderProducts();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+            if (totalItems === 0) showToast("Cart is empty");
+            else showToast(`🛒 ${totalItems} items · ₹${document.getElementById('cartTotal').innerText} total`);
+        });
+
+        renderProducts();
+        lucide.createIcons();
+        updateCartUI();
+    </script>
+</body>
+</html>
